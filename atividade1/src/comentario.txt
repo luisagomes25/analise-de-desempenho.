@@ -1,0 +1,4 @@
+Nesta atividade foi implementado um codigo onde ele ler uma arquivo txt e faz operacoes em uma lista ligada
+
+
+eu coloquei o caminho do arquivo do meu computador, nao sei se funciona em todos.
