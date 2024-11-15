@@ -5,7 +5,7 @@ public class ListaLigadaOperacoes {
     public static void main(String[] args) {
         LinkedList<Integer> lista = new LinkedList<>();
         try {
-            File file = new File("/Users/luisfelipedearrudagomes/Documents/GitHub/analise-de-desempenho./atividade1/src/arq.txt");
+            File file = new File("/Users/luisfelipedearrudagomes/Documents/GitHub/analise-de-desempenho./atividade1/src/arq-novo.txt");
             Scanner scanner = new Scanner(file);
             if (scanner.hasNextLine()) {
                 String[] numeros = scanner.nextLine().split(" ");
@@ -20,11 +20,14 @@ public class ListaLigadaOperacoes {
                 String comando = operacao[0];
                 switch (comando) {
                     case "A": 
-                        for (int j = 1; j < operacao.length; j++) {
-                            lista.add(Integer.parseInt(operacao[j]));
+                        int valor = Integer.parseInt(operacao[1]);
+                        int posicao = Integer.parseInt(operacao[2]);
+                        if (posicao >= 0 && posicao <= lista.size()) {
+                            lista.add(posicao, valor); 
+                        } else {
+                            System.out.println("Posição inválida: " + posicao);
                         }
                         break;
-                    
                     case "R": 
                         for (int j = 1; j < operacao.length; j++) {
                             int numero = Integer.parseInt(operacao[j]);
@@ -32,7 +35,7 @@ public class ListaLigadaOperacoes {
                         }
                         break;
                     
-                    case "P": // Impressão
+                    case "P":
                         System.out.println("Lista atualizada: " + lista);
                         break;
                     
