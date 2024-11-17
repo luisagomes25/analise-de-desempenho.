@@ -4,46 +4,46 @@ function main() {
     let lista = [];
 
     try {
-        const filePath = "/Users/luisfelipedearrudagomes/Documents/GitHub/analise-de-desempenho./atividade1/src/arq-novo.txt";
-        const data = fs.readFileSync(filePath, 'utf8');
-        const lines = data.split('\n');
-        if (lines.length > 0) {
-            const numeros = lines[0].split(" ");
-            lista = numeros.map(Number);
-        }
-        const numOperacoes = parseInt(lines[1], 10);
-        for (let i = 0; i < numOperacoes; i++) {
-            const operacao = lines[i + 2].split(" ");
+        const data = fs.readFileSync("/Users/luisfelipedearrudagomes/Documents/GitHub/analise-de-desempenho./atividade1/src/arq-novo.txt", "utf-8");
+        const lines = data.split("\n");
+
+        const numeros = lines[0].split(" ").map(Number);
+        lista = lista.concat(numeros);
+
+        const numOperacoes = parseInt(lines[1]);
+
+        for (let i = 2; i < 2 + numOperacoes; i++) {
+            const operacao = lines[i].split(" ");
             const comando = operacao[0];
 
-            switch (comando) {
-                case "A": 
-                    const valor = parseInt(operacao[1], 10);
-                    const posicao = parseInt(operacao[2], 10);
-
-                    if (posicao >= 0 && posicao <= lista.length) {
-                        lista.splice(posicao, 0, valor); 
-                        console.log(`Adicionado ${valor} na posição ${posicao}. Lista:`, lista);
-                    } else {
-                        console.log(`Posição inválida: ${posicao}`);
-                    }
-                    break;
-                case "R": 
-                    for (let j = 1; j < operacao.length; j++) {
-                        const numero = parseInt(operacao[j], 10);
-                        lista = lista.filter(n => n !== numero);
-                        console.log(`Removido ${numero}. Lista:`, lista);
-                    }
-                    break;
-                case "P": 
-                    console.log("Lista atualizada:", lista);
-                    break;
-                default:
-                    console.log(`Comando inválido: ${comando}`);
+            if (comando === "A") {  // Adicionar valor
+                const valor = parseInt(operacao[1]);
+                const posicao = parseInt(operacao[2]);
+                if (posicao >= 0 && posicao <= lista.length) {
+                    lista.splice(posicao, 0, valor);
+                } else {
+                    console.log(`Posição inválida: ${posicao}`);
+                }
+            } else if (comando === "R") {  // Remover valores
+                for (let j = 1; j < operacao.length; j++) {
+                    const numero = parseInt(operacao[j]);
+                    lista = lista.filter(n => n !== numero);
+                }
+            } else if (comando === "P") {  // Imprimir lista
+                console.log("Lista atualizada:", lista.join(" "));
+            } else {
+                console.log(`Comando inválido: ${comando}`);
             }
         }
     } catch (err) {
-        console.error("Erro ao processar o arquivo:", err.message);
+        if (err.code === 'ENOENT') {
+            console.log("Erro: Arquivo 'arq-novo.txt' não encontrado.");
+        } else if (err instanceof Error && err.message.includes('invalid') ) {
+            console.log("Erro ao converter número.");
+        } else {
+            console.log(err.message);
+        }
     }
 }
+
 main();
